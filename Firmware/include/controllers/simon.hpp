@@ -2,7 +2,6 @@
 #define __SIMON_HPP__
 
 #include <vector>
-#include <array>
 #include "cfg/target.hpp"
 #include "utils/logger.hpp"
 
@@ -16,17 +15,15 @@ namespace controller
     public:
         Simon(std::vector<proxy::Led> &leds, std::vector<proxy::Button> &buttons, proxy::Button &reset_button, proxy::Buzzer &buzzer, std::vector<uint16_t> &tones);
 
-        void blink_once(uint8_t led_index, uint16_t blink_time = blink_time);
-
         void control_leds(bool state);
 
-        void reset(void);
+        void blink_once(uint8_t led_index, uint16_t blink_time = blink_time);
 
-        void add_random(void);
-
-        uint8_t get_user_input(void);
+        void lose_song();
 
         uint8_t get_pressed_button(void);
+
+        void reset(void);
 
         void loop(void);
 

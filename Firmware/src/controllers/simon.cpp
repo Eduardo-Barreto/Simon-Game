@@ -11,12 +11,6 @@ Simon::Simon(
 {
 }
 
-void Simon::reset()
-{
-    sequence.clear();
-    state = WAITING_FOR_START;
-}
-
 void Simon::control_leds(bool state)
 {
     for (uint8_t i = 0; i < leds.size(); i++)
@@ -26,7 +20,17 @@ void Simon::control_leds(bool state)
     buzzer.stop_tone();
 }
 
-void lose_song()
+void Simon::blink_once(uint8_t led_index, uint16_t blink_time)
+{
+    buzzer.start_tone(tones[led_index]);
+    leds[led_index].on();
+    delay(blink_time);
+    leds[led_index].off();
+    buzzer.stop_tone();
+    delay(blink_time / 3);
+}
+
+void Simon::lose_song()
 {
     for (uint8_t i = tones.size(); i > 0; i--)
     {
@@ -60,14 +64,10 @@ uint8_t Simon::get_pressed_button()
     return 255;
 }
 
-void Simon::blink_once(uint8_t led_index, uint16_t blink_time)
+void Simon::reset()
 {
-    buzzer.start_tone(tones[led_index]);
-    leds[led_index].on();
-    delay(blink_time);
-    leds[led_index].off();
-    buzzer.stop_tone();
-    delay(blink_time / 3);
+    sequence.clear();
+    state = WAITING_FOR_START;
 }
 
 void Simon::loop()
